@@ -11,6 +11,12 @@
       "name": "Неизвестный герой",
       "description": "Скрывающийся в тени",
       "element": "wind"
+    },
+    {
+      "id": "0f297d97-b1d3-4157-ac20-64ff7d3c522f",
+      "name": "dsss",
+      "description": "dsadsad",
+      "element": "water"
     }
   ],
   "filters": [

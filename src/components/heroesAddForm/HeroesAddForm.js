@@ -4,7 +4,8 @@ import * as Yup from 'yup'
 import { v4 as uuid } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHttp } from '../../hooks/http.hook';
-import { filtersFetched, heroAdd } from '../../actions';
+// import { filtersFetched, heroAdd } from '../../actions';
+import {  heroAdd } from '../heroesList/heroesSlice';
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
 // в общее состояние и отображаться в списке + фильтроваться
@@ -17,7 +18,7 @@ import { filtersFetched, heroAdd } from '../../actions';
 
 const HeroesAddForm = () => {
 
-    const filters = useSelector(state => state.filters)
+    const {filters, filtersLoadingStatus} = useSelector(state => state.filters)
 
     const dispatch = useDispatch();
     const { request } = useHttp();

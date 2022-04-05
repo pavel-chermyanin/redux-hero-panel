@@ -7,46 +7,47 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filtersFetching, filtersFetched, filtersFetchingError, activeFilterChanged } from "../../actions";
+import { fetchFilters, activeFilterChanged } from "../../actions";
 import { useHttp } from "../../hooks/http.hook";
+import Spinner from "../spinner/Spinner";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 const HeroesFilters = () => {
 
     const dispatch = useDispatch();
-    const { filters, filtersLoadingStatus, activeFilter } = useSelector(state => state);
+    const { filters, filtersLoadingStatus, activeFilter } = useSelector(state => state.filters);
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(filtersFetching());
-        request("http://localhost:3001/filters")
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
+        dispatch(fetchFilters(request))
 
         // eslint-disable-next-line
     }, []);
 
     return (
-        <div className="card shadow-lg mt-4">
-            <div className="card-body">
-                <p className="card-text">Отфильтруйте героев по элементам</p>
-                <div className="btn-group">
-                    {filters.map(item => {
-                        const btnClass = classNames('btn', item.className, {
-                            'active': item.name === activeFilter
-                        })
-                        return (
-                            <button
-                                onClick={() => dispatch(activeFilterChanged(item.name))}
-                                key={item.name}
-                                className={btnClass}>
-                                {item.label}
-                            </button>
-                        )
-                    })}
+        <>
+            {/* {filtersLoadingStatus === 'loading' ? <Spinner /> : null} */}
+            <div className="card shadow-lg mt-4">
+                <div className="card-body">
+                    <p className="card-text">Отфильтруйте героев по элементам</p>
+                    <div className="btn-group">
+                        {filters.map(item => {
+                            const btnClass = classNames('btn', item.className, {
+                                'active': item.name === activeFilter
+                            })
+                            return (
+                                <button
+                                    onClick={() => dispatch(activeFilterChanged(item.name))}
+                                    key={item.name}
+                                    className={btnClass}>
+                                    {item.label}
+                                </button>
+                            )
+                        })}
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
